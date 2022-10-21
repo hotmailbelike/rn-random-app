@@ -1,6 +1,6 @@
 import {StyleSheet, View} from 'react-native';
 import React from 'react';
-import {Container, Center, Text, Heading, Pressable, Button} from 'native-base';
+import {Container, Center, Heading, Button} from 'native-base';
 
 const Welcome = ({navigation}) => {
   return (

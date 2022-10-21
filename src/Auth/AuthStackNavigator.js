@@ -5,7 +5,7 @@ import ForgotPassword from './ForgotPassword';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 import Welcome from './Welcome';
-import {Button, Text} from 'native-base';
+import {Button, ArrowBackIcon, Pressable, View} from 'native-base';
 
 const Stack = createStackNavigator();
 
@@ -13,6 +13,10 @@ const AuthStackNavigator = props => (
   <Stack.Navigator
     screenOptions={{
       headerTitleAlign: 'center',
+      headerTransparent: true,
+      headerTitleStyle: {
+        color: 'transparent',
+      },
     }}>
     <Stack.Screen
       name="Welcome"
@@ -26,11 +30,10 @@ const AuthStackNavigator = props => (
       name="Sign In"
       component={SignIn}
       options={({navigation, route}) => ({
-        headerStyle: {
-          textAlign: 'center',
-        },
         headerLeft: () => (
-          <Button onPress={() => navigation.goBack()}>Back</Button>
+          <Button variant={'unstyled'} onPress={() => navigation.goBack()}>
+            <ArrowBackIcon size={'5'}></ArrowBackIcon>
+          </Button>
         ),
       })}
     />

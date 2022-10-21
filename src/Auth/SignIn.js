@@ -8,9 +8,22 @@ import {
   Input,
 } from 'native-base';
 
-import React from 'react';
+import React, {useContext, useState} from 'react';
+import {AuthContext} from './AuthProvider';
 
 const SignIn = ({navigation}) => {
+  const {signIn} = useContext(AuthContext);
+
+  const [user, setUser] = useState({
+    email: '',
+    password: '',
+  });
+
+  const handleUser = (key, value) => setUser({...user, [key]: value});
+
+  const handleSignIn = () => {
+    signIn(user.email, user.password);
+  };
   return (
     <Container
       mt={20}
@@ -22,16 +35,30 @@ const SignIn = ({navigation}) => {
       <FormControl marginTop={3}>
         <Stack mx="4">
           <FormControl.Label>Email</FormControl.Label>
-          <Input type="email" placeholder="Enter Email" />
+          <Input
+            type="text"
+            placeholder="Enter Email"
+            value={user.email.toLowerCase()}
+            onChangeText={text => handleUser('email', text.toLowerCase())}
+          />
         </Stack>
       </FormControl>
       <FormControl marginTop={3}>
         <Stack mx="4">
           <FormControl.Label>Password</FormControl.Label>
-          <Input type="password" defaultValue="" placeholder="Enter Password" />
+          <Input
+            type="password"
+            placeholder="Enter Password"
+            value={user.password}
+            onChangeText={text => handleUser('password', text)}
+          />
         </Stack>
       </FormControl>
-      <Button marginTop={5} width={'50%'} colorScheme={'darkBlue'}>
+      <Button
+        marginTop={5}
+        width={'50%'}
+        colorScheme={'darkBlue'}
+        onPress={handleSignIn}>
         Sign in
       </Button>
 

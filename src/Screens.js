@@ -6,7 +6,7 @@ import {NativeBaseProvider} from 'native-base';
 
 import SplashScreen from 'react-native-splash-screen';
 import AuthStackNavigator from './Auth/AuthStackNavigator';
-import Notification from './Notification/Notification';
+import TabNavigator from './TabNavigator/TabNavigator';
 import {AuthContext} from './Auth/AuthProvider';
 
 const Screens = () => {
@@ -24,6 +24,7 @@ const Screens = () => {
 
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+
     SplashScreen.hide();
 
     return subscriber;
@@ -34,7 +35,7 @@ const Screens = () => {
     <NativeBaseProvider>
       <NavigationContainer>
         {user ? (
-          <Notification></Notification>
+          <TabNavigator></TabNavigator>
         ) : (
           <AuthStackNavigator></AuthStackNavigator>
         )}

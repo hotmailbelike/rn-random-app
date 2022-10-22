@@ -1,0 +1,41 @@
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import React, {useContext} from 'react';
+
+const Tab = createBottomTabNavigator();
+
+import Notification from '../Notification/Notification';
+import Photo from '../Photo/Photo';
+
+import {AuthContext} from '../Auth/AuthProvider';
+import {Pressable} from 'native-base';
+
+const TabNavigator = () => {
+  const {signOut} = useContext(AuthContext);
+
+  return (
+    <Tab.Navigator
+      initialRouteName="Notification"
+      screenOptions={{
+        headerTransparent: true,
+        headerTitleStyle: {
+          color: 'transparent',
+        },
+      }}>
+      <Tab.Screen name="Notification" component={Notification} />
+      <Tab.Screen name="Photo" component={Photo} />
+      <Tab.Screen
+        name="Sign Out"
+        children={() => null}
+        options={({navigation, route}) => {
+          return {
+            tabBarButton: props => (
+              <Pressable {...props} onPress={signOut}></Pressable>
+            ),
+          };
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
+
+export default TabNavigator;

@@ -41,6 +41,30 @@ export const AuthProvider = ({children}) => {
             );
           }
         },
+        requestPasswordReset: async email => {
+          try {
+            let res = await auth().sendPasswordResetEmail(email);
+            console.log(
+              '🚀 -> file: AuthProvider.js -> line 47 -> AuthProvider -> res',
+              res,
+            );
+          } catch (error) {
+            console.error(
+              '🚀 -> file: AuthProvider.js -> line 49 -> requestPasswordReset: -> error',
+              error,
+            );
+          }
+        },
+        resetPassword: async (code, newPassword) => {
+          try {
+            await auth().confirmPasswordReset(code, newPassword);
+          } catch (error) {
+            console.error(
+              '🚀 -> file: AuthProvider.js -> line 49 -> resetPassword: -> error',
+              error,
+            );
+          }
+        },
       }}>
       {children}
     </AuthContext.Provider>

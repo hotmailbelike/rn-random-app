@@ -6,6 +6,7 @@ import {
   Button,
   Stack,
   Input,
+  Text,
 } from 'native-base';
 
 import React, {useContext, useState} from 'react';
@@ -36,10 +37,11 @@ const SignIn = ({navigation}) => {
         <Stack mx="4">
           <FormControl.Label>Email</FormControl.Label>
           <Input
+            autoCapitalize="none"
             type="text"
             placeholder="Enter Email"
             value={user.email.toLowerCase()}
-            onChangeText={text => handleUser('email', text.toLowerCase())}
+            onChangeText={text => handleUser('email', text.trim())}
           />
         </Stack>
       </FormControl>
@@ -66,9 +68,8 @@ const SignIn = ({navigation}) => {
         onPress={() => navigation.navigate('Forgot Password')}
         marginTop={2}
         width={'50%'}
-        variant={'unstyled'}
-        colorScheme={'primary'}>
-        Forgot Password?
+        variant={'unstyled'}>
+        <Text color={'blue.700'}>Forgot Password?</Text>
       </Button>
     </Container>
   );

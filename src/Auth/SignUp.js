@@ -37,6 +37,7 @@ const SignUp = () => {
         <Stack mx="4">
           <FormControl.Label>Email</FormControl.Label>
           <Input
+            autoCapitalize="none"
             value={user.email}
             type="text"
             placeholder="Enter Email"

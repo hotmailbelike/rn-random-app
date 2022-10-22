@@ -7,9 +7,23 @@ import {
   Stack,
   Input,
 } from 'native-base';
-import React from 'react';
+import React, {useContext, useState} from 'react';
+import {AuthContext} from './AuthProvider';
 
 const ForgotPassword = () => {
+  const {requestPasswordReset} = useContext(AuthContext);
+
+  const [user, setUser] = useState({
+    email: '',
+    password: '',
+  });
+
+  const handleUser = (key, value) => setUser({...user, [key]: value});
+
+  const handleRequestPasswordReset = () => {
+    requestPasswordReset(user.email);
+  };
+
   return (
     <Container
       mt={20}
@@ -21,7 +35,13 @@ const ForgotPassword = () => {
       <FormControl marginTop={3}>
         <Stack mx="4">
           <FormControl.Label>Email</FormControl.Label>
-          <Input type="email" placeholder="Enter Email" />
+          <Input
+            autoCapitalize="none"
+            type="email"
+            placeholder="Enter Email"
+            value={user.email}
+            onChangeText={text => handleUser('email', text.trim())}
+          />
         </Stack>
       </FormControl>
       <FormControl marginTop={3}>
@@ -40,7 +60,11 @@ const ForgotPassword = () => {
           <Input type="password" defaultValue="" placeholder="Enter Password" />
         </Stack>
       </FormControl>
-      <Button marginTop={5} width={'50%'} colorScheme={'darkBlue'}>
+      <Button
+        marginTop={5}
+        width={'50%'}
+        colorScheme={'info'}
+        onPress={handleRequestPasswordReset}>
         Reset Password
       </Button>
     </Container>

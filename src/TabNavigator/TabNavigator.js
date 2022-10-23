@@ -5,6 +5,7 @@ const Tab = createBottomTabNavigator();
 
 import Notification from '../Notification/Notification';
 import Photo from '../Photo/Photo';
+import Text from '../Text/Text';
 
 import {AuthContext} from '../Auth/AuthProvider';
 import {Pressable} from 'native-base';
@@ -16,6 +17,7 @@ const TabNavigator = () => {
     <Tab.Navigator
       initialRouteName="Notification"
       screenOptions={{
+        tabBarHideOnKeyboard: true,
         headerTransparent: true,
         headerTitleStyle: {
           color: 'transparent',
@@ -23,6 +25,7 @@ const TabNavigator = () => {
       }}>
       <Tab.Screen name="Notification" component={Notification} />
       <Tab.Screen name="Photo" component={Photo} />
+      <Tab.Screen name="Notes" component={Text} />
       <Tab.Screen
         name="Sign Out"
         children={() => null}

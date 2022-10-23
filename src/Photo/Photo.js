@@ -95,7 +95,7 @@ const Photo = () => {
         var photoDocument = null;
 
         if (photoDocumentId !== '') {
-          photoCollection.doc(photoDocumentId).update({
+          await photoCollection.doc(photoDocumentId).update({
             photoUrl: url,
             updatedAt: timestamp,
           });

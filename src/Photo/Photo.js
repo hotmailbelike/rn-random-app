@@ -149,12 +149,7 @@ const Photo = () => {
 
   if (uploading) {
     return (
-      <Stack
-        space={2}
-        alignSelf="center"
-        marginY={'auto'}
-        justifyItems="center"
-        alignItems={'center'}>
+      <Stack space={2} marginY={'auto'} alignItems={'center'}>
         <Spinner size="lg" accessibilityLabel="Uploading Image" />
         <Text color="primary.500" fontSize="md">
           Uploading...
@@ -165,12 +160,7 @@ const Photo = () => {
 
   if (loading) {
     return (
-      <Stack
-        space={2}
-        alignSelf="center"
-        marginY={'auto'}
-        justifyItems="center"
-        alignItems={'center'}>
+      <Stack space={2} marginY={'auto'} alignItems={'center'}>
         <Spinner size="lg" accessibilityLabel="Fetching Data" />
         <Text color="primary.500" fontSize="md">
           Fetching Profile Data...

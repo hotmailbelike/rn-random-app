@@ -93,13 +93,8 @@ const TextScreen = () => {
 
   if (saving) {
     return (
-      <Stack
-        space={2}
-        alignSelf="center"
-        marginY={'auto'}
-        justifyItems="center"
-        alignItems={'center'}>
-        <Spinner size="lg" accessibilityLabel="Uploading Image" />
+      <Stack space={2} marginY={'auto'} alignItems={'center'}>
+        <Spinner size="lg" accessibilityLabel="Saving Note" />
         <Text color="primary.500" fontSize="md">
           Saving Notes...
         </Text>
@@ -109,13 +104,8 @@ const TextScreen = () => {
 
   if (loading) {
     return (
-      <Stack
-        space={2}
-        alignSelf="center"
-        marginY={'auto'}
-        justifyItems="center"
-        alignItems={'center'}>
-        <Spinner size="lg" accessibilityLabel="Fetching Data" />
+      <Stack space={2} marginY={'auto'} alignItems={'center'}>
+        <Spinner size="lg" accessibilityLabel="Fetching Notes" />
         <Text color="primary.500" fontSize="md">
           Fetching Notes...
         </Text>

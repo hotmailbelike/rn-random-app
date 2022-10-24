@@ -8,6 +8,8 @@ import {
   Input,
 } from 'native-base';
 import React, {useContext, useState} from 'react';
+import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import {AuthContext} from './AuthProvider';
 
 const SignUp = () => {
@@ -70,6 +72,13 @@ const SignUp = () => {
         </Stack>
       </FormControl>
       <Button
+        leftIcon={
+          <MaterialCommunityIcon
+            name="account-plus"
+            color="white"
+            size={20}></MaterialCommunityIcon>
+        }
+        borderRadius={30}
         marginTop={5}
         width={'50%'}
         colorScheme={'darkBlue'}

@@ -8,6 +8,8 @@ import {
   Input,
 } from 'native-base';
 import React, {useContext, useState} from 'react';
+import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import {AuthContext} from './AuthProvider';
 
 const ForgotPassword = () => {
@@ -61,11 +63,18 @@ const ForgotPassword = () => {
         </Stack>
       </FormControl>
       <Button
+        leftIcon={
+          <MaterialCommunityIcon
+            name="email-receive-outline"
+            color="white"
+            size={20}></MaterialCommunityIcon>
+        }
+        borderRadius={30}
         marginTop={5}
-        width={'50%'}
+        width={'80%'}
         colorScheme={'info'}
         onPress={handleRequestPasswordReset}>
-        Reset Password
+        Request Reset Password
       </Button>
     </Container>
   );

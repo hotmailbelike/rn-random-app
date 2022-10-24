@@ -15,6 +15,7 @@ import {
 import React, {useState, useEffect, useContext} from 'react';
 import firestore from '@react-native-firebase/firestore';
 import {useIsFocused} from '@react-navigation/native';
+import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {AuthContext} from '../Auth/AuthProvider';
 
@@ -137,6 +138,13 @@ const TextScreen = () => {
             onChangeText={text => setNote(text)}
           />
           <Button
+            borderRadius={30}
+            leftIcon={
+              <MaterialCommunityIcon
+                name="text-box-plus-outline"
+                color="white"
+                size={20}></MaterialCommunityIcon>
+            }
             isDisabled={note === ''}
             colorScheme={'darkBlue'}
             onPress={handleSaveNote}

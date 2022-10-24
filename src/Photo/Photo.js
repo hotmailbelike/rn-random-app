@@ -15,6 +15,7 @@ import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {useIsFocused} from '@react-navigation/native';
+import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {AuthContext} from '../Auth/AuthProvider';
 
@@ -214,11 +215,29 @@ const Photo = () => {
       )}
 
       <Stack direction={'row'} marginTop="5" space={3}>
-        <Button onPress={() => setShowImageOptionsModal(true)}>
+        <Button
+          borderRadius={30}
+          leftIcon={
+            <MaterialCommunityIcon
+              name="camera-plus"
+              color="white"
+              size={20}></MaterialCommunityIcon>
+          }
+          onPress={() => setShowImageOptionsModal(true)}
+          colorScheme={'darkBlue'}>
           Upload new Image
         </Button>
         {photoFile != null && (
-          <Button onPress={uploadToFirebase} colorScheme={'success'}>
+          <Button
+            borderRadius={30}
+            leftIcon={
+              <MaterialCommunityIcon
+                name="cloud-upload"
+                color="white"
+                size={20}></MaterialCommunityIcon>
+            }
+            onPress={uploadToFirebase}
+            colorScheme={'success'}>
             Save Image
           </Button>
         )}
@@ -238,10 +257,16 @@ const Photo = () => {
             </Modal.Header>
             <Modal.Body>
               <Stack direction={'column'} space={4}>
-                <Button onPress={handleLaunchCamera} colorScheme={'info'}>
+                <Button
+                  borderRadius={30}
+                  onPress={handleLaunchCamera}
+                  colorScheme={'info'}>
                   Launch Camera
                 </Button>
-                <Button onPress={handleLaunchGallery} colorScheme={'primary'}>
+                <Button
+                  borderRadius={30}
+                  onPress={handleLaunchGallery}
+                  colorScheme={'primary'}>
                   Select from Gallery
                 </Button>
               </Stack>
@@ -252,6 +277,7 @@ const Photo = () => {
               borderTopColor={'transparent'}>
               <Button.Group>
                 <Button
+                  borderRadius={30}
                   variant="ghost"
                   colorScheme="blueGray"
                   onPress={() => {

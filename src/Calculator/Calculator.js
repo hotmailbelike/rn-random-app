@@ -15,6 +15,7 @@ import {
 } from 'native-base';
 
 import React, {useState} from 'react';
+import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -147,11 +148,7 @@ const Calculator = () => {
               backgroundColor={'gray.200'}
               defaultValue={0}
               value={calculateObj.num1}
-              // value={parseFloat(calculateObj.num1)}
-              onChangeText={text =>
-                // handleCalculateObj('num1', parseFloat(text))
-                handleCalculateObj('num1', text)
-              }
+              onChangeText={text => handleCalculateObj('num1', text)}
             />
             <Stack direction="row-reverse">
               <Input
@@ -162,13 +159,9 @@ const Calculator = () => {
                 size={'2xl'}
                 fontSize="4xl"
                 backgroundColor={'gray.200'}
-                // value={parseFloat(calculateObj.num2)}
                 value={calculateObj.num2}
                 defaultValue={0}
-                onChangeText={text =>
-                  // handleCalculateObj('num2', parseFloat(text))
-                  handleCalculateObj('num2', text)
-                }></Input>
+                onChangeText={text => handleCalculateObj('num2', text)}></Input>
               <Select
                 flex={1}
                 textAlign={'right'}
@@ -193,12 +186,29 @@ const Calculator = () => {
             </Stack>
             <Stack direction={'row'} space={3}>
               <Button
+                borderRadius={30}
+                leftIcon={
+                  <MaterialCommunityIcon
+                    name="close-circle"
+                    color="white"
+                    size={20}></MaterialCommunityIcon>
+                }
                 flex={1}
-                colorScheme={'danger'}
+                colorScheme={'pink'}
                 onPress={handleClearNumbers}>
                 Clear
               </Button>
-              <Button flex={2} colorScheme={'blue'} onPress={handleCalculate}>
+              <Button
+                borderRadius={30}
+                leftIcon={
+                  <MaterialCommunityIcon
+                    name="calculator"
+                    color="white"
+                    size={20}></MaterialCommunityIcon>
+                }
+                flex={2}
+                colorScheme={'blue'}
+                onPress={handleCalculate}>
                 Calculate
               </Button>
             </Stack>

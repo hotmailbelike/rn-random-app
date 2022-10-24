@@ -1,7 +1,8 @@
 import {StyleSheet} from 'react-native';
-import {Container, Heading, Button, Text} from 'native-base';
+import {Container, Heading, Button, ScrollView} from 'native-base';
 import React from 'react';
 import notifee from '@notifee/react-native';
+import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Notification = () => {
   const onDisplayNotification = async () => {
@@ -46,9 +47,10 @@ const Notification = () => {
         colorScheme={'red'}
         borderRadius={100}
         onPress={onDisplayNotification}>
-        <Text fontSize={'3xl'} color={'white'}>
-          Press Here!
-        </Text>
+        <MaterialCommunityIcon
+          name="bell-ring-outline"
+          color={'#fff'}
+          size={70}></MaterialCommunityIcon>
       </Button>
     </Container>
   );

@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 import {
   Container,
   FormControl,
@@ -9,14 +9,13 @@ import {
   useToast,
   KeyboardAvoidingView,
   ScrollView,
+  Text,
 } from 'native-base';
 import React, {useContext, useState} from 'react';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {AuthContext} from './AuthProvider';
-import {isEmailValid} from '../utils';
-
-//  api key to email checker
+import {isEmailValid, checkPasswordStrength} from '../utils';
 
 const SignUp = () => {
   const {signUp} = useContext(AuthContext);
@@ -55,6 +54,10 @@ const SignUp = () => {
 
       if (password !== confirmPassword) {
         return showToast('Passwords do not match');
+      }
+
+      if (password.length < 8) {
+        return showToast('Password must be minimum 8 characters');
       }
 
       // Zylab email checker api page link: https://zylalabs.com/api-marketplace/email/e-mail+verificator+and+temp+emails+detector+api/26/item_post
@@ -98,6 +101,17 @@ const SignUp = () => {
     }
   };
 
+  if (user.password.length > 0) {
+    var passwordStrength = checkPasswordStrength(user.password);
+
+    var strengthIndicatorColor = 'red.700';
+
+    if (passwordStrength === 'medium') {
+      strengthIndicatorColor = 'blue.700';
+    } else if (passwordStrength === 'strong') {
+      strengthIndicatorColor = 'green.700';
+    }
+  }
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -128,12 +142,26 @@ const SignUp = () => {
             <Stack mx="4">
               <FormControl.Label>Password</FormControl.Label>
               <Input
+                marginBottom={1}
                 value={user.password}
                 type="password"
                 defaultValue=""
                 placeholder="Enter Password"
                 onChangeText={text => handleUser('password', text)}
               />
+              {user.password.length > 0 && user.password.length < 8 && (
+                <Text color={'red.700'} fontSize={12}>
+                  Minimum 8 characters{' '}
+                </Text>
+              )}
+              {user.password.length > 0 && user.password.length >= 8 && (
+                <Text color={'muted.700'} fontSize={12}>
+                  Password Strength:{' '}
+                  <Text fontWeight={'bold'} color={strengthIndicatorColor}>
+                    {passwordStrength.toUpperCase()}
+                  </Text>
+                </Text>
+              )}
             </Stack>
           </FormControl>
           <FormControl marginTop={3}>

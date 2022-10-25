@@ -19,6 +19,7 @@ export const AuthProvider = ({children}) => {
               '🚀 -> file: AuthProvider.js -> line 17 -> signIn: -> error',
               error,
             );
+            return {error};
           }
         },
         signUp: async (email, password) => {
@@ -29,6 +30,7 @@ export const AuthProvider = ({children}) => {
               '🚀 -> file: AuthProvider.js -> line 25 -> signUp: -> error',
               error,
             );
+            return {error};
           }
         },
         signOut: async (email, password) => {
@@ -39,6 +41,7 @@ export const AuthProvider = ({children}) => {
               '🚀 -> file: AuthProvider.js -> line 38 -> signOut: -> error',
               error,
             );
+            return {error};
           }
         },
         requestPasswordReset: async email => {
@@ -53,16 +56,7 @@ export const AuthProvider = ({children}) => {
               '🚀 -> file: AuthProvider.js -> line 49 -> requestPasswordReset: -> error',
               error,
             );
-          }
-        },
-        resetPassword: async (code, newPassword) => {
-          try {
-            await auth().confirmPasswordReset(code, newPassword);
-          } catch (error) {
-            console.error(
-              '🚀 -> file: AuthProvider.js -> line 49 -> resetPassword: -> error',
-              error,
-            );
+            return {error};
           }
         },
       }}>

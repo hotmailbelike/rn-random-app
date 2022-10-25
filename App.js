@@ -1,4 +1,6 @@
 import {AuthProvider} from './src/Auth/AuthProvider';
+import {LogBox} from 'react-native';
+LogBox.ignoreAllLogs();
 
 import Screens from './src/Screens';
 

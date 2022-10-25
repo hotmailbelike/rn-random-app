@@ -62,7 +62,6 @@ const Calculator = () => {
           [
             {
               text: 'Ok',
-              onPress: handleClearNumbers,
               style: 'cancel',
             },
             {

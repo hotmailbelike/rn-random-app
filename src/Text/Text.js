@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Alert} from 'react-native';
 import {
   Container,
   Heading,
@@ -59,6 +59,20 @@ const TextScreen = () => {
 
       console.error(
         '🚀 -> file: Text.js -> line 37 -> handleSaveNote -> error',
+        error,
+      );
+    }
+  };
+
+  const handleDeleteNote = async () => {
+    try {
+      setNote('');
+      setNoteDocumentId('');
+
+      await noteCollection.doc(noteDocumentId).delete();
+    } catch (error) {
+      console.error(
+        '🚀 -> file: Text.js -> line 71 -> handleDeleteNote -> error',
         error,
       );
     }
@@ -137,20 +151,58 @@ const TextScreen = () => {
             value={note}
             onChangeText={text => setNote(text)}
           />
-          <Button
-            borderRadius={30}
-            leftIcon={
-              <MaterialCommunityIcon
-                name="text-box-plus-outline"
-                color="white"
-                size={20}></MaterialCommunityIcon>
-            }
-            isDisabled={note === ''}
-            colorScheme={'darkBlue'}
-            onPress={handleSaveNote}
-            marginTop={5}>
-            {noteDocumentId === '' ? 'Save Note' : 'Update Changes'}
-          </Button>
+          <Stack direction={'row'} space={3}>
+            {noteDocumentId !== '' && (
+              <Button
+                borderRadius={30}
+                leftIcon={
+                  <MaterialCommunityIcon
+                    name="trash-can-outline"
+                    color="white"
+                    size={20}></MaterialCommunityIcon>
+                }
+                isDisabled={note === ''}
+                colorScheme={'danger'}
+                onPress={() =>
+                  Alert.alert(
+                    'Are you sure?',
+                    'All data will be lost',
+                    [
+                      {
+                        text: 'Yes',
+                        onPress: handleDeleteNote,
+                        style: 'cancel',
+                      },
+                      {
+                        text: 'No',
+                        style: 'cancel',
+                      },
+                    ],
+                    {
+                      cancelable: true,
+                      onDismiss: () => null,
+                    },
+                  )
+                }
+                marginTop={5}>
+                Delete Note
+              </Button>
+            )}
+            <Button
+              borderRadius={30}
+              leftIcon={
+                <MaterialCommunityIcon
+                  name="text-box-plus-outline"
+                  color="white"
+                  size={20}></MaterialCommunityIcon>
+              }
+              isDisabled={note === ''}
+              colorScheme={'darkBlue'}
+              onPress={handleSaveNote}
+              marginTop={5}>
+              {noteDocumentId === '' ? 'Save Note' : 'Update Changes'}
+            </Button>
+          </Stack>
         </Container>
       </ScrollView>
     </KeyboardAvoidingView>

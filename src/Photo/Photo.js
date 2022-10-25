@@ -121,6 +121,31 @@ const Photo = () => {
     }
   };
 
+  const handleDeletePhoto = async () => {
+    try {
+      let photoDocumentIdCopy = photoDocumentId;
+      let currentPhotoUrlCopy = currentPhotoUrl;
+
+      setCurrentPhotoUrl('');
+      setPhotoDocumentId('');
+      setPhotoFile(null);
+
+      await photoCollection.doc(photoDocumentIdCopy).delete();
+
+      if (currentPhotoUrlCopy && currentPhotoUrlCopy !== '') {
+        let oldMediaUrlRef = storage().refFromURL(currentPhotoUrlCopy);
+        let oldMedUrlFullRef = storage().ref(oldMediaUrlRef.fullPath);
+
+        await oldMedUrlFullRef.delete();
+      }
+    } catch (error) {
+      console.error(
+        '🚀 -> file: Text.js -> line 71 -> handleDeletePhoto -> error',
+        error,
+      );
+    }
+  };
+
   useEffect(() => {
     if (isFocused === true) {
       setLoading(true);
@@ -200,7 +225,6 @@ const Photo = () => {
       )}
 
       {(photoFile != null || currentPhotoUrl !== '') && (
-        // <View backgroundColor="rgba(220,220,220,0.6)">
         <Image
           marginTop={5}
           width={300}
@@ -211,7 +235,6 @@ const Photo = () => {
             uri: photoFile?.uri || photoFile?.path || currentPhotoUrl,
           }}
           alt={photoFile?.fileName || 'Firebase Image'}></Image>
-        //</View>
       )}
 
       <Stack direction={'row'} marginTop="5" space={3}>
@@ -225,7 +248,9 @@ const Photo = () => {
           }
           onPress={() => setShowImageOptionsModal(true)}
           colorScheme={'darkBlue'}>
-          Upload new Image
+          {photoDocumentId !== '' || photoFile != null
+            ? 'Change Photo'
+            : 'Upload new Photo'}
         </Button>
         {photoFile != null && (
           <Button
@@ -241,55 +266,91 @@ const Photo = () => {
             Save Image
           </Button>
         )}
-
-        {/*  */}
-        <Modal
-          size={'md'}
-          isOpen={showImageOptionsModal}
-          onClose={() => setShowImageOptionsModal(false)}>
-          <Modal.Content maxWidth={400}>
-            <Modal.Header
-              borderBottomColor={'transparent'}
-              alignItems={'center'}
-              marginBottom={-3}
-              paddingBottom={-10}>
-              Select an Upload Option{' '}
-            </Modal.Header>
-            <Modal.Body>
-              <Stack direction={'column'} space={4}>
-                <Button
-                  borderRadius={30}
-                  onPress={handleLaunchCamera}
-                  colorScheme={'info'}>
-                  Launch Camera
-                </Button>
-                <Button
-                  borderRadius={30}
-                  onPress={handleLaunchGallery}
-                  colorScheme={'primary'}>
-                  Select from Gallery
-                </Button>
-              </Stack>
-            </Modal.Body>
-            <Modal.Footer
-              marginTop={-2}
-              paddingTop={-10}
-              borderTopColor={'transparent'}>
-              <Button.Group>
-                <Button
-                  borderRadius={30}
-                  variant="ghost"
-                  colorScheme="blueGray"
-                  onPress={() => {
-                    setShowImageOptionsModal(false);
-                  }}>
-                  Cancel
-                </Button>
-              </Button.Group>
-            </Modal.Footer>
-          </Modal.Content>
-        </Modal>
       </Stack>
+
+      {photoDocumentId !== '' && (
+        <Button
+          borderRadius={30}
+          leftIcon={
+            <MaterialCommunityIcon
+              name="trash-can-outline"
+              color="white"
+              size={20}></MaterialCommunityIcon>
+          }
+          colorScheme={'danger'}
+          onPress={() =>
+            Alert.alert(
+              'Are you sure?',
+              'Photo will be permanently deleted',
+              [
+                {
+                  text: 'Yes',
+                  onPress: handleDeletePhoto,
+                  style: 'cancel',
+                },
+                {
+                  text: 'No',
+                  style: 'cancel',
+                },
+              ],
+              {
+                cancelable: true,
+                onDismiss: () => null,
+              },
+            )
+          }
+          marginTop={3}>
+          Delete Photo
+        </Button>
+      )}
+
+      {/*  */}
+      <Modal
+        size={'md'}
+        isOpen={showImageOptionsModal}
+        onClose={() => setShowImageOptionsModal(false)}>
+        <Modal.Content maxWidth={400}>
+          <Modal.Header
+            borderBottomColor={'transparent'}
+            alignItems={'center'}
+            marginBottom={-3}
+            paddingBottom={-10}>
+            Select an Upload Option{' '}
+          </Modal.Header>
+          <Modal.Body>
+            <Stack direction={'column'} space={4}>
+              <Button
+                borderRadius={30}
+                onPress={handleLaunchCamera}
+                colorScheme={'info'}>
+                Launch Camera
+              </Button>
+              <Button
+                borderRadius={30}
+                onPress={handleLaunchGallery}
+                colorScheme={'primary'}>
+                Select from Gallery
+              </Button>
+            </Stack>
+          </Modal.Body>
+          <Modal.Footer
+            marginTop={-2}
+            paddingTop={-10}
+            borderTopColor={'transparent'}>
+            <Button.Group>
+              <Button
+                borderRadius={30}
+                variant="ghost"
+                colorScheme="blueGray"
+                onPress={() => {
+                  setShowImageOptionsModal(false);
+                }}>
+                Cancel
+              </Button>
+            </Button.Group>
+          </Modal.Footer>
+        </Modal.Content>
+      </Modal>
     </Container>
   );
 };

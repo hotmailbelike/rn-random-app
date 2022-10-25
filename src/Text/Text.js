@@ -66,10 +66,12 @@ const TextScreen = () => {
 
   const handleDeleteNote = async () => {
     try {
+      let noteDocumentIdCopy = noteDocumentId;
+
       setNote('');
       setNoteDocumentId('');
 
-      await noteCollection.doc(noteDocumentId).delete();
+      await noteCollection.doc(noteDocumentIdCopy).delete();
     } catch (error) {
       console.error(
         '🚀 -> file: Text.js -> line 71 -> handleDeleteNote -> error',
@@ -161,7 +163,6 @@ const TextScreen = () => {
                     color="white"
                     size={20}></MaterialCommunityIcon>
                 }
-                isDisabled={note === ''}
                 colorScheme={'danger'}
                 onPress={() =>
                   Alert.alert(

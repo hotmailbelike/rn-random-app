@@ -16,6 +16,8 @@ import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIc
 import {AuthContext} from './AuthProvider';
 import {isEmailValid} from '../utils';
 
+//  api key to email checker
+
 const SignUp = () => {
   const {signUp} = useContext(AuthContext);
 
@@ -39,31 +41,65 @@ const SignUp = () => {
 
   const handleUser = (key, value) => setUser({...user, [key]: value});
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     const {email, password, confirmPassword} = user;
 
-    if (!email || !password || !confirmPassword) {
-      return showToast('Please fill in all details');
-    }
-
-    if (!isEmailValid(email)) {
-      return showToast('Please enter a valid email');
-    }
-
-    if (password !== confirmPassword) {
-      return showToast('Passwords do not match');
-    }
-
-    signUp(user.email, user.password).then(res => {
-      if (res.error) {
-        return showToast('Something went wrong. Please try again');
+    try {
+      if (!email || !password || !confirmPassword) {
+        return showToast('Please fill in all details');
       }
-    });
+
+      if (!isEmailValid(email)) {
+        return showToast('Please enter a valid email');
+      }
+
+      if (password !== confirmPassword) {
+        return showToast('Passwords do not match');
+      }
+
+      // Zylab email checker api page link: https://zylalabs.com/api-marketplace/email/e-mail+verificator+and+temp+emails+detector+api/26/item_post
+      let emailCheck = await fetch(
+        `https://zylalabs.com/api/26/e-mail+verificator+and+temp+emails+detector+api/89/check+if+its+not+temp?domain=${email}`,
+        {
+          method: 'get',
+          headers: {
+            Authorization:
+              'Bearer 223|WryYn4fHkHez3as7c2Sja6xDFk4WXKr2eEUMb9RP',
+          },
+        },
+      );
+
+      if (!emailCheck.ok) {
+        return showToast('Service down. Please contact Administrator', {
+          duration: 6000,
+        });
+      }
+
+      emailCheck = await emailCheck.json();
+
+      if (!emailCheck.valid) {
+        return showToast('Please enter a valid email');
+      } else if (emailCheck.block) {
+        return showToast('This email is not allowed');
+      } else if (emailCheck.disposable) {
+        return showToast('Temporary emails are not allowed');
+      }
+
+      signUp(user.email, user.password).then(res => {
+        if (res.error) {
+          return showToast('Email already in use');
+        }
+      });
+    } catch (error) {
+      console.error(
+        '🚀 -> file: SignUp.js -> line 72 -> handleSignUp -> error',
+        error,
+      );
+    }
   };
 
   return (
     <KeyboardAvoidingView
-      paddingBottom={10}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView
         showsVerticalScrollIndicator={false}
